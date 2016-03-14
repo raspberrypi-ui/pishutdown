@@ -93,6 +93,7 @@ int main (int argc, char *argv[])
 	gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
 	gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 2, 3);
 	
+    gtk_window_set_position (GTK_WINDOW(dlg), GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_widget_show_all (dlg);
 
 	gtk_main ();
