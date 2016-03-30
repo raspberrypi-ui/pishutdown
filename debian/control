@@ -2,7 +2,7 @@ Source: pishutdown
 Section: utils
 Priority: optional
 Maintainer: Simon Long <simon@raspberrypi.org>
-Build-Depends: debhelper (>= 9), autotools-dev, libglib2.0-dev, libgtk2.0-dev
+Build-Depends: debhelper (>= 9), autotools-dev, intltool, libglib2.0-dev, libgtk2.0-dev
 Standards-Version: 3.9.5
 Homepage: <insert the upstream URL, if relevant>
 
