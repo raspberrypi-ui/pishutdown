@@ -1,0 +1,4 @@
+#!/bin/sh
+
+dpkg-divert --package pishutdown --divert /usr/bin/lxde-pi-shutdown-helper.old --rename /usr/bin/lxde-pi-shutdown-helper
+#DEBHELPER#
