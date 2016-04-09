@@ -58,8 +58,7 @@ gboolean draw(GtkWidget * widget, cairo_t * cr, GdkPixbuf * pixbuf) {
     return FALSE;
 }
 
-static void get_string (char *cmd, char *name)
-{
+static void get_string (char *cmd, char *name) {
     FILE *fp = popen (cmd, "r");
     char buf[128];
 
@@ -72,23 +71,15 @@ static void get_string (char *cmd, char *name)
     }
 }
 
-void button_handler (GtkWidget *widget, gpointer data)
-{
+void button_handler (GtkWidget *widget, gpointer data) {
     if (!strcmp (data, "shutdown")) system ("sudo shutdown -h now");
     if (!strcmp (data, "reboot")) system ("sudo reboot");
     if (!strcmp (data, "exit")) system ("sudo pkill lxsession");
 }
 
-gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
-{
-    gtk_main_quit ();
-    return FALSE;
-}
-
 /* The dialog... */
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
 	GtkWidget *dlg, *btn, *box;
 	GtkRequisition req;
 	char buffer[128];
