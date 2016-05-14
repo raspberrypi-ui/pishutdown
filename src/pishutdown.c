@@ -28,9 +28,9 @@ static void get_string (char *cmd, char *name)
 
 void button_handler (GtkWidget *widget, gpointer data)
 {
-    if (!strcmp (data, "shutdown")) system ("sudo shutdown -h now");
-    if (!strcmp (data, "reboot")) system ("sudo reboot");
-    if (!strcmp (data, "exit")) system ("sudo pkill lxsession");
+    if (!strcmp (data, "shutdown")) system ("shutdown -h now");
+    if (!strcmp (data, "reboot")) system ("reboot");
+    if (!strcmp (data, "exit")) system ("pkill lxsession");
 }
 
 gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
