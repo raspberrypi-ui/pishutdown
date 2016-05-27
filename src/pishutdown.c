@@ -22,8 +22,8 @@ static void get_string (char *cmd, char *name)
     if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
     {
         sscanf (buf, "%s", name);
-        return;
     }
+    pclose (fp);
 }
 
 void button_handler (GtkWidget *widget, gpointer data)
