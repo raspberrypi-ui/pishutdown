@@ -10,7 +10,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 
-#define MIN_WIDTH 250
+#define MIN_WIDTH 275
 
 static void get_string (char *cmd, char *name)
 {
