@@ -1,3 +1,11 @@
+pishutdown (0.3) jessie; urgency=medium
+
+  * pclose added
+  * German translation added
+  * Remove sudo prefix from commands
+
+ -- Serge Schneider <serge@raspberrypi.org>  Fri, 27 May 2016 11:05:54 +0100
+
 pishutdown (0.2) jessie; urgency=medium
 
   * Accelerators added
