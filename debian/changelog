@@ -1,3 +1,9 @@
+pishutdown (0.4) jessie; urgency=medium
+
+  * Window width increased
+
+ -- Simon Long <simon@raspberrypi.org>  Mon, 18 Jul 2016 15:30:00 +0100
+
 pishutdown (0.3) jessie; urgency=medium
 
   * pclose added
