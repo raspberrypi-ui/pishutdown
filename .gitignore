@@ -8,6 +8,7 @@
 .DS_Store
 lxde-pi-shutdown-helper
 config.log
+config.h
 .deps/
 .libs/
 debian/pishutdown
