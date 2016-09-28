@@ -30,7 +30,7 @@ void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("shutdown -h now");
     if (!strcmp (data, "reboot")) system ("reboot");
-    if (!strcmp (data, "exit")) system ("pkill lxsession");
+    if (!strcmp (data, "exit")) system ("kill $_LXSESSION_PID");
 }
 
 gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
