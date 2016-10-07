@@ -28,9 +28,9 @@ static void get_string (char *cmd, char *name)
 
 void button_handler (GtkWidget *widget, gpointer data)
 {
-    if (!strcmp (data, "shutdown")) system ("shutdown -h now");
-    if (!strcmp (data, "reboot")) system ("reboot");
-    if (!strcmp (data, "exit")) system ("kill $_LXSESSION_PID");
+    if (!strcmp (data, "shutdown")) system ("/sbin/shutdown -h now");
+    if (!strcmp (data, "reboot")) system ("/sbin/reboot");
+    if (!strcmp (data, "exit")) system ("/bin/kill $_LXSESSION_PID");
 }
 
 gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
     gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
     gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 1, 2);
 
-    get_string ("service lightdm status | grep \"\\bactive\\b\"", buffer);
+    get_string ("/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
     if (strlen (buffer))
         btn = gtk_button_new_with_mnemonic (_("Logout"));
     else
