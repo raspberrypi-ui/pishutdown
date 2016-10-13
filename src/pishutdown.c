@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
     gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
     gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 1, 2);
 
-    get_string ("/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
+    get_string ("/usr/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
     if (strlen (buffer))
         btn = gtk_button_new_with_mnemonic (_("Logout"));
     else

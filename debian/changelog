@@ -1,3 +1,9 @@
+pishutdown (0.7) jessie; urgency=medium
+
+  * Corrected path for service system function
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 13 Oct 2016 14:21:46 +0100
+
 pishutdown (0.6) jessie; urgency=medium
 
   * Absolute paths used for all system functions
