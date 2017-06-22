@@ -1,3 +1,9 @@
+pishutdown (0.8) jessie; urgency=medium
+
+  * Allow escape key to close application
+
+ -- Simon Long <simon@raspberrypi.org>  Fri, 12 May 2017 16:23:42 +0100
+
 pishutdown (0.7) jessie; urgency=medium
 
   * Corrected path for service system function
