@@ -11,8 +11,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 
-#define MIN_WIDTH 275
-
 static void get_string (char *cmd, char *name)
 {
     FILE *fp = popen (cmd, "r");
@@ -56,6 +54,7 @@ int main (int argc, char *argv[])
     GtkWidget *dlg, *btn, *box;
     GtkRequisition req;
     char buffer[128];
+    int width;
 
 #ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
@@ -71,6 +70,7 @@ int main (int argc, char *argv[])
     // build the UI
     dlg = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title (GTK_WINDOW (dlg), _("Shutdown options"));
+
     gtk_container_set_border_width (GTK_CONTAINER (dlg), 10);
     gtk_window_set_icon (GTK_WINDOW (dlg), gdk_pixbuf_new_from_file ("/usr/share/raspberrypi-artwork/raspitr.png", NULL));
     gtk_window_set_resizable (GTK_WINDOW (dlg), FALSE);
@@ -82,15 +82,20 @@ int main (int argc, char *argv[])
 
     gtk_container_add (GTK_CONTAINER (dlg), box);
 
-    btn = gtk_button_new_with_mnemonic (_("Shutdown"));
+    // use dummy button to find title width
+    btn = gtk_button_new_with_mnemonic (_("Shutdown options"));
     gtk_widget_size_request (btn, &req);
-    if (req.width < MIN_WIDTH) gtk_widget_set_size_request (box, MIN_WIDTH, -1);
+    width = req.width * 2;
+
+    btn = gtk_button_new_with_mnemonic (_("Shutdown"));
     gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "shutdown");
     gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 0, 1);
+    gtk_widget_size_request (btn, &req);
+    if (req.width < width) gtk_widget_set_size_request (box, width, -1);
 
     btn = gtk_button_new_with_mnemonic (_("Reboot"));
     gtk_widget_size_request (btn, &req);
-    if (req.width < MIN_WIDTH) gtk_widget_set_size_request (box, MIN_WIDTH, -1);
+    if (req.width < width) gtk_widget_set_size_request (box, width, -1);
     gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
     gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 1, 2);
 
@@ -100,7 +105,7 @@ int main (int argc, char *argv[])
     else
         btn = gtk_button_new_with_mnemonic (_("Exit to command line"));
     gtk_widget_size_request (btn, &req);
-    if (req.width < MIN_WIDTH) gtk_widget_set_size_request (box, MIN_WIDTH, -1);
+    if (req.width < width) gtk_widget_set_size_request (box, width, -1);
     gtk_signal_connect (GTK_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
     gtk_table_attach_defaults (GTK_TABLE (box), btn, 0, 1, 2, 3);
 
