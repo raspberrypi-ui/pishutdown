@@ -1,3 +1,9 @@
+pishutdown (0.9) stretch; urgency=medium
+
+  * Resize properly when system font size changes
+
+ -- Simon Long <simon@raspberrypi.org>  Thu, 11 Jan 2018 13:35:53 +0000
+
 pishutdown (0.8) jessie; urgency=medium
 
   * Allow escape key to close application
