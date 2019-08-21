@@ -1,3 +1,9 @@
+pishutdown (0.10) buster; urgency=medium
+
+  * Added Norwegian translation
+
+ -- Simon Long <simon@raspberrypi.org>  Wed, 21 Aug 2019 09:55:28 +0100
+
 pishutdown (0.9) stretch; urgency=medium
 
   * Resize properly when system font size changes
