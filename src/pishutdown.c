@@ -54,8 +54,8 @@ static void get_string (char *cmd, char *name)
 
 void button_handler (GtkWidget *widget, gpointer data)
 {
-    if (!strcmp (data, "shutdown")) system ("/sbin/shutdown -h now");
-    if (!strcmp (data, "reboot")) system ("/sbin/reboot");
+    if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
+    if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
     if (!strcmp (data, "exit")) system ("/bin/kill $_LXSESSION_PID");
 }
 
