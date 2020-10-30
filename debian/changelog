@@ -1,3 +1,9 @@
+pishutdown (0.14) buster; urgency=medium
+
+  * Add Russian translation
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 30 Oct 2020 10:56:09 +0000
+
 pishutdown (0.13) buster; urgency=medium
 
   * Kill Orca before reboot or shutdown
