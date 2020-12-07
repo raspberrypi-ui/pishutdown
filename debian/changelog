@@ -1,3 +1,9 @@
+pishutdown (0.15) buster; urgency=medium
+
+  * Added Slovak translation
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 07 Dec 2020 08:03:06 +0000
+
 pishutdown (0.14) buster; urgency=medium
 
   * Add Russian translation
