@@ -1,4 +1,4 @@
-pishutdown (0.16) buster; urgency=medium
+pishutdown (0.16) bullseye; urgency=medium
 
   * GTK+3 version
 
