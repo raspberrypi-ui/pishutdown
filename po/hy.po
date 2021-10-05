@@ -22,15 +22,15 @@ msgid "Shutdown options"
 msgstr "Դուրս գալու ընտրանքներ"
 
 #: ../src/pishutdown.c:74
-msgid "Shutdown"
+msgid "_Shutdown"
 msgstr "Անջատել"
 
 #: ../src/pishutdown.c:80
-msgid "Reboot"
+msgid "_Reboot"
 msgstr "Վերագործարկել"
 
 #: ../src/pishutdown.c:88
-msgid "Logout"
+msgid "_Logout"
 msgstr "Դուրս գալ"
 
 #: ../src/pishutdown.c:90

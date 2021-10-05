@@ -23,15 +23,15 @@ msgid "Shutdown options"
 msgstr "Opcje Zamykania"
 
 #: ../src/pishutdown.c:74
-msgid "Shutdown"
+msgid "_Shutdown"
 msgstr "Zamknij"
 
 #: ../src/pishutdown.c:80
-msgid "Reboot"
+msgid "_Reboot"
 msgstr "Restartuj"
 
 #: ../src/pishutdown.c:88
-msgid "Logout"
+msgid "_Logout"
 msgstr "Wyloguj"
 
 #: ../src/pishutdown.c:90

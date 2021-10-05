@@ -22,17 +22,21 @@ msgid "Shutdown options"
 msgstr "Shutdown Options"
 
 #: ../src/pishutdown.c:74
-msgid "Shutdown"
-msgstr "_Shutdown"
+msgid "_Shutdown"
+msgstr "Shutdown"
 
 #: ../src/pishutdown.c:80
-msgid "Reboot"
-msgstr "_Reboot"
+msgid "_Reboot"
+msgstr "Reboot"
 
 #: ../src/pishutdown.c:88
-msgid "Logout"
-msgstr "_Logout"
+msgid "_Logout"
+msgstr "Logout"
 
 #: ../src/pishutdown.c:90
 msgid "Exit to command line"
 msgstr "Exit to command _line"
+
+#: ../src/pishutdown.c:95
+msgid "_Lock"
+msgstr "Lock"

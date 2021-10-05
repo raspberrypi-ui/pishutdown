@@ -57,6 +57,11 @@ static void button_handler (GtkWidget *widget, gpointer data)
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
     if (!strcmp (data, "exit")) system ("/bin/kill $_LXSESSION_PID");
+    if (!strcmp (data, "lock"))
+    {
+         system ("/usr/bin/dm-tool lock");
+         exit(0);
+    }
 }
 
 static gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
@@ -96,7 +101,7 @@ int main (int argc, char *argv[])
 
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_UI_DIR "/pishutdown.ui");
-    
+
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
     g_signal_connect (G_OBJECT (dlg), "delete_event", G_CALLBACK (delete_event), NULL);
     g_signal_connect (G_OBJECT (dlg), "key_press_event", G_CALLBACK (check_escape), NULL);
@@ -111,6 +116,14 @@ int main (int argc, char *argv[])
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
     get_string ("/usr/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
     if (!strlen (buffer)) gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
+
+    btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_lock");
+    g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
+    if (!strlen (buffer))
+    {
+        gtk_widget_hide (btn);
+        gtk_widget_set_can_focus (btn, FALSE);
+    }
 
     gtk_widget_show (dlg);
     gtk_main ();
