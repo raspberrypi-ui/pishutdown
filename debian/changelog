@@ -1,3 +1,9 @@
+pishutdown (0.18) bullseye; urgency=medium
+
+  * Add French translation
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 18 Nov 2021 11:24:08 +0000
+
 pishutdown (0.17) bullseye; urgency=medium
 
   * Fix translation bug
