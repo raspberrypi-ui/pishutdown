@@ -1,0 +1,38 @@
+# English translations for pishutdown package.
+# Copyright (C) 2016 THE pishutdown'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pishutdown package.
+#  <simon@raspberrypi.org>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pishutdown 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-31 22:09+0000\n"
+"PO-Revision-Date: 2022-08-31 22:21+0000\n"
+"Last-Translator:  <josemanuel.sandria@ine.mx>\n"
+"Language-Team: Español\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/pishutdown.c:63
+msgid "Shutdown options"
+msgstr "Opciones de Apagado"
+
+#: ../src/pishutdown.c:74
+msgid "Shutdown"
+msgstr "Apagar"
+
+#: ../src/pishutdown.c:80
+msgid "Reboot"
+msgstr "Reiniciar"
+
+#: ../src/pishutdown.c:88
+msgid "Logout"
+msgstr "Cerrar Sesión"
+
+#: ../src/pishutdown.c:90
+msgid "Exit to command line"
+msgstr "Salir a la línea de comandos"
