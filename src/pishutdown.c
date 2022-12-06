@@ -38,6 +38,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 
+gboolean wayfire = FALSE;
+
 static void get_string (char *cmd, char *name)
 {
     FILE *fp = popen (cmd, "r");
@@ -56,7 +58,12 @@ static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
-    if (!strcmp (data, "exit")) system ("/bin/kill $_LXSESSION_PID");
+    if (!strcmp (data, "exit"))
+    {
+        system ("/usr/bin/pkill orca");
+        if (wayfire) system ("/usr/bin/wayland-logout");
+        else system ("/bin/kill $_LXSESSION_PID");
+    }
 }
 
 static gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
@@ -89,6 +96,8 @@ int main (int argc, char *argv[])
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
 #endif
+
+    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
 
     // GTK setup
     gtk_init (&argc, &argv);
