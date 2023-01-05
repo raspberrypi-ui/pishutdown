@@ -40,18 +40,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 gboolean wayfire = FALSE;
 
-static void get_string (char *cmd, char *name)
+static int get_string (char *cmd, char *name)
 {
     FILE *fp = popen (cmd, "r");
     char buf[128];
 
     name[0] = 0;
-    if (fp == NULL) return;
+    if (fp == NULL) return 0;
     if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
     {
         sscanf (buf, "%s", name);
     }
     pclose (fp);
+    return strlen (name);
 }
 
 static void button_handler (GtkWidget *widget, gpointer data)
@@ -118,8 +119,9 @@ int main (int argc, char *argv[])
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
-    get_string ("/usr/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
-    if (!strlen (buffer)) gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
+    if (!get_string ("/usr/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer) &&
+        !get_string ("/usr/sbin/service greetd status | grep \"\\bactive\\b\"", buffer))
+            gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
     gtk_widget_show (dlg);
     gtk_main ();
