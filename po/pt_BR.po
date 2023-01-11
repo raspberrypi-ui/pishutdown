@@ -1,0 +1,38 @@
+# Portuguese (Brazil) translations for pishutdown package.
+# Copyright (C) 2022 THE pishutdown'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pishutdown package.
+#  <danielmota.ba@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pishutdown 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-07 17:20-03000\n"
+"PO-Revision-Date: 2022-12-07 17:20-0300\n"
+"Last-Translator:  <danielmota.ba@gmail.com>\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/pishutdown.c:63
+msgid "Shutdown options"
+msgstr "Opções de Desligamento"
+
+#: ../src/pishutdown.c:74
+msgid "Shutdown"
+msgstr "_Desligar"
+
+#: ../src/pishutdown.c:80
+msgid "Reboot"
+msgstr "_Reiniciar"
+
+#: ../src/pishutdown.c:88
+msgid "Logout"
+msgstr "_Finalizar sessão"
+
+#: ../src/pishutdown.c:90
+msgid "Exit to command line"
+msgstr "Sair para _linha de comando"
