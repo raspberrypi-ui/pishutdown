@@ -61,7 +61,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
-        if (wayfire) system ("/usr/bin/wayland-logout");
+        if (wayfire) system ("/usr/bin/pkill wayfire");
         else system ("/bin/kill $_LXSESSION_PID");
     }
 }
