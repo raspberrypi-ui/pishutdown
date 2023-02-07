@@ -40,20 +40,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 gboolean wayfire = FALSE;
 
-static void get_string (char *cmd, char *name)
-{
-    FILE *fp = popen (cmd, "r");
-    char buf[128];
-
-    name[0] = 0;
-    if (fp == NULL) return;
-    if (fgets (buf, sizeof (buf) - 1, fp) != NULL)
-    {
-        sscanf (buf, "%s", name);
-    }
-    pclose (fp);
-}
-
 static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
@@ -88,7 +74,6 @@ int main (int argc, char *argv[])
 {
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
-    char buffer[128];
 
 #ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
@@ -118,8 +103,8 @@ int main (int argc, char *argv[])
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
-    get_string ("/usr/sbin/service lightdm status | grep \"\\bactive\\b\"", buffer);
-    if (!strlen (buffer)) gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
+    if (system ("systemctl is-active lightdm | grep -qw active"))
+        gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
     gtk_widget_show (dlg);
     gtk_main ();

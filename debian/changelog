@@ -1,3 +1,9 @@
+pishutdown (0.21) bullseye; urgency=medium
+
+  * Use systemctl is-active to check lightdm status
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 07 Feb 2023 14:10:36 +0000
+
 pishutdown (0.20) bullseye; urgency=medium
 
   * Just kill wayfire process to logout
