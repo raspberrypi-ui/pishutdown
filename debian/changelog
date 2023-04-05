@@ -1,3 +1,9 @@
+pishutdown (0.22) bookworm; urgency=medium
+
+  * Added Korean translation
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 05 Apr 2023 11:48:28 +0100
+
 pishutdown (0.21) bullseye; urgency=medium
 
   * Use systemctl is-active to check lightdm status
