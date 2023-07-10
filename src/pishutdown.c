@@ -82,7 +82,7 @@ int main (int argc, char *argv[])
     textdomain (GETTEXT_PACKAGE);
 #endif
 
-    if (!system ("ps ax | grep wayfire | grep -qv grep")) wayfire = TRUE;
+    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
 
     // GTK setup
     gtk_init (&argc, &argv);

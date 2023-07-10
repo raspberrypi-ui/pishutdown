@@ -1,3 +1,9 @@
+pishutdown (0.23) bookworm; urgency=medium
+
+  * More efficient wayfire test
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 10 Jul 2023 10:05:33 +0100
+
 pishutdown (0.22) bookworm; urgency=medium
 
   * Added Korean translation
