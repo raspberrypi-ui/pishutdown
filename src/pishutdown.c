@@ -38,8 +38,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 
-gboolean wayfire = FALSE;
-
 static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
@@ -47,7 +45,8 @@ static void button_handler (GtkWidget *widget, gpointer data)
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
-        if (wayfire) system ("/usr/bin/pkill wayfire");
+        if (!system ("pgrep wayfire > /dev/null")) system ("/usr/bin/pkill wayfire");
+        else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/pkill labwc");
         else system ("/bin/kill $_LXSESSION_PID");
     }
 }
@@ -81,8 +80,6 @@ int main (int argc, char *argv[])
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
 #endif
-
-    if (getenv ("WAYFIRE_CONFIG_FILE")) wayfire = TRUE;
 
     // GTK setup
     gtk_init (&argc, &argv);
