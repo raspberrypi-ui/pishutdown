@@ -1,3 +1,9 @@
+pishutdown (0.24) bookworm; urgency=medium
+
+  * Add labwc compatibility
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 11 Jan 2024 14:11:58 +0000
+
 pishutdown (0.23) bookworm; urgency=medium
 
   * More efficient wayfire test
