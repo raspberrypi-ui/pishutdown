@@ -24,7 +24,7 @@ LT_PREREQ([2.2])
 LT_INIT
 
 # Checks for libraries.
-pkg_modules="$pkg_modules gtk+-3.0 >= 3.24.0"
+pkg_modules="$pkg_modules gtk+-3.0 >= 3.24.0 libinput libudev"
 
 pkg_modules="$pkg_modules"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])

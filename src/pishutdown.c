@@ -37,6 +37,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
+#include <fcntl.h>
+#include <libinput.h>
+#include <libudev.h>
+#include <linux/input.h>
+
+static int open_restricted (const char *path, int flags, void *user_data)
+{
+    int fd = open (path, flags);
+    return fd < 0 ? -errno : fd;
+}
+
+static void close_restricted (int fd, void *user_data)
+{
+    close (fd);
+}
+
+const static struct libinput_interface interface = {
+    .open_restricted = open_restricted,
+    .close_restricted = close_restricted,
+};
 
 static void button_handler (GtkWidget *widget, gpointer data)
 {
@@ -57,14 +77,30 @@ static gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
     return FALSE;
 }
 
-static gboolean check_escape (GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean check_libinput_events (struct libinput *li)
 {
-    if (event->keyval == GDK_KEY_Escape)
+    struct libinput_event *ev;
+    libinput_dispatch (li);
+    if ((ev = libinput_get_event (li)) != 0)
     {
-        gtk_main_quit ();
-        return TRUE;
+        if (libinput_event_get_type (ev) == LIBINPUT_EVENT_KEYBOARD_KEY)
+        {
+            struct libinput_event_keyboard *kb = libinput_event_get_keyboard_event (ev);
+            if (libinput_event_keyboard_get_key_state (kb) == LIBINPUT_KEY_STATE_PRESSED)
+            {
+                if (libinput_event_keyboard_get_key (kb) == KEY_POWER)
+                {
+                    system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
+                }
+                if (libinput_event_keyboard_get_key (kb) == KEY_ESC)
+                {
+                    gtk_main_quit ();
+                }
+            }
+            libinput_event_destroy (ev);
+        }
     }
-    return FALSE;
+    return TRUE;
 }
 
 /* The dialog... */
@@ -90,7 +126,6 @@ int main (int argc, char *argv[])
     
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
     g_signal_connect (G_OBJECT (dlg), "delete_event", G_CALLBACK (delete_event), NULL);
-    g_signal_connect (G_OBJECT (dlg), "key_press_event", G_CALLBACK (check_escape), NULL);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_shutdown");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "shutdown");
@@ -103,9 +138,18 @@ int main (int argc, char *argv[])
     if (system ("systemctl is-active lightdm | grep -qw active"))
         gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
+    struct udev *udev = udev_new ();
+    struct libinput *li = libinput_udev_create_context (&interface, NULL, udev);
+    libinput_udev_assign_seat (li, "seat0");
+    libinput_dispatch (li);
+    g_idle_add ((GSourceFunc) check_libinput_events, li);
+
     gtk_widget_show (dlg);
     gtk_main ();
     gtk_widget_destroy (dlg);
+
+    libinput_unref (li);
+    udev_unref (udev);
 
     return 0;
 }
