@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libudev.h>
 #include <linux/input.h>
 
-//#define USE_LOGIND
+#define USE_LOGIND
 
 #ifdef USE_LOGIND
 GDBusProxy *proxy;
