@@ -88,13 +88,14 @@ static gboolean check_libinput_events (struct libinput *li)
             struct libinput_event_keyboard *kb = libinput_event_get_keyboard_event (ev);
             if (libinput_event_keyboard_get_key_state (kb) == LIBINPUT_KEY_STATE_PRESSED)
             {
-                if (libinput_event_keyboard_get_key (kb) == KEY_POWER)
+                switch (libinput_event_keyboard_get_key (kb))
                 {
-                    system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
-                }
-                if (libinput_event_keyboard_get_key (kb) == KEY_ESC)
-                {
-                    gtk_main_quit ();
+                    case KEY_POWER:
+                        system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
+                        break;
+                    case KEY_ESC:
+                        gtk_main_quit ();
+                        break;
                 }
             }
             libinput_event_destroy (ev);
