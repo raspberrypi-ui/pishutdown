@@ -42,6 +42,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libudev.h>
 #include <linux/input.h>
 
+//#define USE_LOGIND
+
+#ifdef USE_LOGIND
+GDBusProxy *proxy;
+#endif
+
 static int open_restricted (const char *path, int flags, void *user_data)
 {
     int fd = open (path, flags);
@@ -65,6 +71,14 @@ static void button_handler (GtkWidget *widget, gpointer data)
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
+#ifdef USE_LOGIND
+        if (proxy)
+        {
+            GVariant *var = g_variant_new ("(ui)", getuid(), SIGKILL);
+            g_dbus_proxy_call_sync (proxy, "KillUser", var, G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL);
+        }
+        else
+#endif
         if (!system ("pgrep wayfire > /dev/null")) system ("/usr/bin/pkill wayfire");
         else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/pkill labwc");
         else system ("/bin/kill $_LXSESSION_PID");
@@ -104,6 +118,19 @@ static gboolean check_libinput_events (struct libinput *li)
     return TRUE;
 }
 
+#ifdef USE_LOGIND
+static void cb_name_owned (GDBusConnection *connection, const gchar *name, const gchar *owner, gpointer user_data)
+{
+    proxy = g_dbus_proxy_new_sync (connection, 0, NULL, name, "/org/freedesktop/login1", "org.freedesktop.login1.Manager", NULL, NULL);
+}
+
+static void cb_name_unowned (GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+    if (proxy) g_object_unref (proxy);
+    proxy = NULL;
+}
+#endif
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -139,6 +166,13 @@ int main (int argc, char *argv[])
     if (system ("systemctl is-active lightdm | grep -qw active"))
         gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
+#ifdef USE_LOGIND
+    // set up callbacks to find DBus interface to system-logind
+    proxy = NULL;
+    g_bus_watch_name (G_BUS_TYPE_SYSTEM, "org.freedesktop.login1", 0, cb_name_owned, cb_name_unowned, NULL, NULL);
+#endif
+
+    // monitor libinput for key presses
     struct udev *udev = udev_new ();
     struct libinput *li = libinput_udev_create_context (&interface, NULL, udev);
     libinput_udev_assign_seat (li, "seat0");
