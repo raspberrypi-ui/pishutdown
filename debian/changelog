@@ -1,3 +1,9 @@
+pishutdown (0.27) bookworm; urgency=medium
+
+  * Use original process killing mechanism if booted to command line
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 14 Feb 2024 14:18:40 +0000
+
 pishutdown (0.26) bookworm; urgency=medium
 
   * Use systemd-login D-Bus to logout users

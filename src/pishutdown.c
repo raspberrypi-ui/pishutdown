@@ -72,7 +72,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
     {
         system ("/usr/bin/pkill orca");
 #ifdef USE_LOGIND
-        if (proxy)
+        if (proxy && !system ("systemctl is-active lightdm | grep -qw active"))
         {
             GVariant *var = g_variant_new ("(ui)", getuid(), SIGKILL);
             g_dbus_proxy_call_sync (proxy, "KillUser", var, G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL);
@@ -81,7 +81,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
 #endif
         if (!system ("pgrep wayfire > /dev/null")) system ("/usr/bin/pkill wayfire");
         else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/pkill labwc");
-        else system ("/bin/kill $_LXSESSION_PID");
+        else system ("/usr/bin/pkill lxsession");
     }
 }
 
