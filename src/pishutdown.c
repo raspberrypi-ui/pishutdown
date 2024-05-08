@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libudev.h>
 #include <linux/input.h>
 
-#define USE_LOGIND
+//#define USE_LOGIND
 
 #ifdef USE_LOGIND
 GDBusProxy *proxy;
@@ -80,7 +80,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
         else
 #endif
         if (!system ("pgrep wayfire > /dev/null")) system ("/usr/bin/pkill wayfire");
-        else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/pkill labwc");
+        else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/labwc -e");
         else system ("/usr/bin/pkill lxsession");
     }
 }
