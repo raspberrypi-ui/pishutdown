@@ -1,3 +1,9 @@
+pishutdown (0.29) bookworm; urgency=medium
+
+  * Translation update
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 16 Jul 2024 07:45:08 +0100
+
 pishutdown (0.28) bookworm; urgency=medium
 
   * Kill processes directly rather than via logind
