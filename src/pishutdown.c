@@ -48,22 +48,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 GDBusProxy *proxy;
 #endif
 
-static int open_restricted (const char *path, int flags, void *user_data)
-{
-    int fd = open (path, flags);
-    return fd < 0 ? -errno : fd;
-}
-
-static void close_restricted (int fd, void *user_data)
-{
-    close (fd);
-}
-
-const static struct libinput_interface interface = {
-    .open_restricted = open_restricted,
-    .close_restricted = close_restricted,
-};
-
 static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
@@ -85,37 +69,20 @@ static void button_handler (GtkWidget *widget, gpointer data)
     }
 }
 
-static gint delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     gtk_main_quit ();
     return FALSE;
 }
 
-static gboolean check_libinput_events (struct libinput *li)
+static gboolean key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-    struct libinput_event *ev;
-    libinput_dispatch (li);
-    if ((ev = libinput_get_event (li)) != 0)
+    if (event->keyval == GDK_KEY_Escape)
     {
-        if (libinput_event_get_type (ev) == LIBINPUT_EVENT_KEYBOARD_KEY)
-        {
-            struct libinput_event_keyboard *kb = libinput_event_get_keyboard_event (ev);
-            if (libinput_event_keyboard_get_key_state (kb) == LIBINPUT_KEY_STATE_PRESSED)
-            {
-                switch (libinput_event_keyboard_get_key (kb))
-                {
-                    case KEY_POWER:
-                        system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
-                        break;
-                    case KEY_ESC:
-                        gtk_main_quit ();
-                        break;
-                }
-            }
-            libinput_event_destroy (ev);
-        }
+        gtk_main_quit ();
+        return TRUE;
     }
-    return TRUE;
+    return FALSE;
 }
 
 #ifdef USE_LOGIND
@@ -151,9 +118,11 @@ int main (int argc, char *argv[])
 
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_UI_DIR "/pishutdown.ui");
-    
+
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
     g_signal_connect (G_OBJECT (dlg), "delete_event", G_CALLBACK (delete_event), NULL);
+    g_signal_connect (G_OBJECT (dlg), "key-press-event", G_CALLBACK (key_press_event), NULL);
+    gtk_widget_add_events (dlg, GDK_KEY_PRESS_MASK);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_shutdown");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "shutdown");
@@ -172,19 +141,9 @@ int main (int argc, char *argv[])
     g_bus_watch_name (G_BUS_TYPE_SYSTEM, "org.freedesktop.login1", 0, cb_name_owned, cb_name_unowned, NULL, NULL);
 #endif
 
-    // monitor libinput for key presses
-    struct udev *udev = udev_new ();
-    struct libinput *li = libinput_udev_create_context (&interface, NULL, udev);
-    libinput_udev_assign_seat (li, "seat0");
-    libinput_dispatch (li);
-    g_idle_add ((GSourceFunc) check_libinput_events, li);
-
     gtk_widget_show (dlg);
     gtk_main ();
     gtk_widget_destroy (dlg);
-
-    libinput_unref (li);
-    udev_unref (udev);
 
     return 0;
 }

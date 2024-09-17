@@ -1,3 +1,9 @@
+pishutdown (0.30) bookworm; urgency=medium
+
+  * Remove libinput handling
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 17 Sep 2024 12:00:33 +0100
+
 pishutdown (0.29) bookworm; urgency=medium
 
   * Translation update
