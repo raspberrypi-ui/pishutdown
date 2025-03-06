@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2018 Raspberry Pi (Trading) Ltd.
+/*============================================================================
+Copyright (c) 2016-2025 Raspberry Pi
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -23,27 +23,14 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+============================================================================*/
 
 #include <string.h>
-
-#include <glib.h>
+#include <locale.h>
 #include <glib/gi18n.h>
-#include <glib/gstdio.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-#include <gdk/gdkx.h>
-#include <fcntl.h>
-#include <libinput.h>
-#include <libudev.h>
-#include <linux/input.h>
 
 //#define USE_LOGIND
-
 #ifdef USE_LOGIND
 GDBusProxy *proxy;
 #endif
@@ -110,12 +97,10 @@ int main (int argc, char *argv[])
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
 
-#ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
     textdomain (GETTEXT_PACKAGE);
-#endif
 
     // GTK setup
     gtk_init (&argc, &argv);
@@ -156,3 +141,6 @@ int main (int argc, char *argv[])
 
     return 0;
 }
+
+/* End of file */
+/*----------------------------------------------------------------------------*/
