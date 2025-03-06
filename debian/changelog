@@ -1,3 +1,9 @@
+pishutdown (0.31) bookworm; urgency=medium
+
+  * Add lock screen option
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 06 Mar 2025 14:47:55 +0000
+
 pishutdown (0.30) bookworm; urgency=medium
 
   * Remove libinput handling
