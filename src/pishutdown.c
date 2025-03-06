@@ -52,6 +52,11 @@ static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
+    if (!strcmp (data, "lock"))
+    {
+        system ("/usr/bin/swaylock -p");
+        gtk_main_quit ();
+    }
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
@@ -129,6 +134,10 @@ int main (int argc, char *argv[])
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_reboot");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
+
+    btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_lock");
+    if (getenv ("WAYLAND_DISPLAY")) g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
+    else gtk_widget_hide (btn);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
