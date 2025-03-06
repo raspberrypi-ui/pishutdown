@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if [ upgrade = "$1" ]; then
+  if dpkg --compare-versions "${2}" lt "0.31" ; then
+    dpkg-divert --package pishutdown --rename --remove /usr/bin/lxde-pi-shutdown-helper
+  fi
+fi
+
+#DEBHELPER#
+
