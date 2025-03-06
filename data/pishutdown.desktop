@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Shutdown
+Exec=pishutdown
+Icon=system-shutdown
+Terminal=false
+Type=Application
+NoDisplay=true
