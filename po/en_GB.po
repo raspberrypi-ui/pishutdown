@@ -29,6 +29,9 @@ msgstr "_Shutdown"
 msgid "Reboot"
 msgstr "_Reboot"
 
+msgid "Lock Screen"
+msgstr "Loc_k Screen"
+
 #: ../src/pishutdown.c:88
 msgid "Logout"
 msgstr "_Logout"
