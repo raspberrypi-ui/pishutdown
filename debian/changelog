@@ -1,3 +1,9 @@
+pishutdown (0.32) bookworm; urgency=medium
+
+  * Text change
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 18 Mar 2025 14:13:08 +0000
+
 pishutdown (0.31) bookworm; urgency=medium
 
   * Add lock screen option
