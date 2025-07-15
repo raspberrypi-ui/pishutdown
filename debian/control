@@ -8,7 +8,7 @@ Homepage: http://raspberrypi.com/
 
 Package: pishutdown
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24), procps
+Depends: ${shlibs:Depends}, ${misc:Depends}, procps
 Description: Desktop shutdown helper for Raspberry Pi
  Small application offering shutdown / reboot / logout options, run from the
  shutdown option on the main menu.
