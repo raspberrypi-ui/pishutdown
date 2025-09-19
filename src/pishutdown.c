@@ -121,7 +121,8 @@ int main (int argc, char *argv[])
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_lock");
-    if (getenv ("WAYLAND_DISPLAY")) g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
+    if (getenv ("WAYLAND_DISPLAY") && !system ("passwd -S $USER | grep -qw P"))
+        g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
     else gtk_widget_hide (btn);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");

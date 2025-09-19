@@ -1,3 +1,9 @@
+pishutdown (0.34) trixie; urgency=medium
+
+  * Hide screen lock button if no password set for current user
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 19 Sep 2025 13:59:23 +0100
+
 pishutdown (0.33) trixie; urgency=medium
 
   * Fix dependencies
