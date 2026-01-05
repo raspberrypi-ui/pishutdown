@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: lxpanel_hr\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-05 10:35+0000\n"
+"PO-Revision-Date: 2017-09-28 20:47+0000\n"
+"Last-Translator: Ivica Kolić <ikoli@yahoo.com>\n"
+"Language-Team: <asjlob AT vip.hr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.8\n"
+"X-Pootle-Revision: 215\n"
+"X-Pootle-Path: /hr/lxpanel/po/hr.po\n"
+"X-POOTLE-MTIME: 1506631641.361068\n"
+
+#: ../src/pishutdown.c:131
+msgid "Exit to command line"
+msgstr ""
+
+#. End of file
+#. ----------------------------------------------------------------------------
+#: ../data/pishutdown.ui.h:1
+msgid "Shutdown options"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:2
+msgid "Shutdown"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:3
+msgid "Reboot"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:4
+msgid "Lock Screen"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:5
+#, fuzzy
+msgctxt "button"
+msgid "Logout"
+msgstr "Odjava"
+
+#: ../data/pishutdown.desktop.in.h:1
+msgid "Logout"
+msgstr "Odjava"
+
+#: ../data/pishutdown.desktop.in.h:2
+msgid "Shutdown and logout options"
+msgstr ""
+

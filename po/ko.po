@@ -31,6 +31,11 @@ msgid "Reboot"
 msgstr "재시작"
 
 #: ../src/pishutdown.c:88
+msgctxt "button"
+msgid "Logout"
+msgstr "로그아웃"
+
+#: ../data/pishutdown.desktop.in.h:1
 msgid "Logout"
 msgstr "로그아웃"
 

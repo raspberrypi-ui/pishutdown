@@ -30,8 +30,13 @@ msgid "Reboot"
 msgstr "Riavvia"
 
 #: ../src/pishutdown.c:88
+msgctxt "button"
 msgid "Logout"
 msgstr "Termina sessione"
+
+#: ../data/pishutdown.desktop.in.h:1
+msgid "Logout"
+msgstr "Chiudi sessione"
 
 #: ../src/pishutdown.c:90
 msgid "Exit to command line"

@@ -1,0 +1,60 @@
+# Japanese translations for lxpanel package
+# lxpanel パッケージに対する日本語訳.
+# Copyright (C) 2008-2009 THE lxpanel'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the lxpanel package.
+# Hironao Komatsu <hironao@users.sourceforge.net>, 2008-2009.
+# IWAI, Masaharu <iwai@alib.jp>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: lxpanel 0.5.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-05 10:35+0000\n"
+"PO-Revision-Date: 2025-09-28 00:45+0900\n"
+"Last-Translator: Akira Ouchi <akkiesoft@marokun.net>\n"
+"Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Pootle-Revision: 1332\n"
+"X-Pootle-Path: /ja/lxpanel/po/ja.po\n"
+"X-POOTLE-MTIME: 1550905593.535770\n"
+
+#: ../src/pishutdown.c:131
+msgid "Exit to command line"
+msgstr ""
+
+#. End of file
+#. ----------------------------------------------------------------------------
+#: ../data/pishutdown.ui.h:1
+msgid "Shutdown options"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:2
+msgid "Shutdown"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:3
+msgid "Reboot"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:4
+msgid "Lock Screen"
+msgstr ""
+
+#: ../data/pishutdown.ui.h:5
+#, fuzzy
+msgctxt "button"
+msgid "Logout"
+msgstr "ログアウト"
+
+#: ../data/pishutdown.desktop.in.h:1
+msgid "Logout"
+msgstr "ログアウト"
+
+#: ../data/pishutdown.desktop.in.h:2
+msgid "Shutdown and logout options"
+msgstr ""
+

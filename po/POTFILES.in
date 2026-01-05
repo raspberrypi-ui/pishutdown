@@ -1,2 +1,5 @@
 [encoding: UTF-8]
 src/pishutdown.c
+[type: gettext/glade] data/pishutdown.ui
+# files added by intltool-prepare
+data/pishutdown.desktop.in

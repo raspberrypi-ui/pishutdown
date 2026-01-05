@@ -63,7 +63,7 @@
         </child>
         <child>
           <object class="GtkButton" id="btn_logout">
-            <property name="label" translatable="yes">Logout</property>
+            <property name="label" translatable="yes" context="button">Logout</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>

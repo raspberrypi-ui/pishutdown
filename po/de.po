@@ -32,6 +32,11 @@ msgid "Reboot"
 msgstr "Neu starten"
 
 #: ../src/pishutdown.c:88
+msgctxt "button"
+msgid "Logout"
+msgstr "Abmelden"
+
+#: ../data/pishutdown.desktop.in.h:1
 msgid "Logout"
 msgstr "Abmelden"
 

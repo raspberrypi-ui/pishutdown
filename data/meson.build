@@ -1,2 +1,9 @@
 install_data('pishutdown.ui', install_dir: ui_dir)
-install_data('pishutdown.desktop', install_dir: desktop_dir)
+
+i18n.merge_file(input: 'pishutdown.desktop.in',
+  output: 'pishutdown.desktop',
+  type: 'desktop',
+  po_dir: '../po',
+  install: true,
+  install_dir: desktop_dir
+)

@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=1.0
-Name=Shutdown...
+Name=Logout
+Comment=Shutdown and logout options
 Exec=pishutdown
 Icon=system-shutdown
 Terminal=false
