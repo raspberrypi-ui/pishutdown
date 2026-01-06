@@ -1,8 +1,14 @@
-pishutdown (0.35) trixie; urgency=medium
+pishutdown (0.36) trixie; urgency=medium
 
   * Update desktop file
 
  -- Simon Long <simon@raspberrypi.com>  Tue, 06 Jan 2026 08:19:33 +0000
+
+pishutdown (0.35) trixie; urgency=medium
+
+  * Make button insensitive rather than hiding if no password
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 23 Sep 2025 11:33:37 +0100
 
 pishutdown (0.34) trixie; urgency=medium
 
