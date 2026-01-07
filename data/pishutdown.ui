@@ -9,7 +9,7 @@
     <property name="title" translatable="yes">Shutdown options</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
-    <property name="icon_name">rpi</property>
+    <property name="icon_name">system-shutdown</property>
     <child>
       <placeholder/>
     </child>
