@@ -1,53 +1,45 @@
-# Czech translations for lxpanel package.
-# Copyright (C) 2009 THE lxpanel'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the lxpanel package.
-# Michal Várady <miko.vaji@gmail.com>, 2009.
-# Pavel Fric <pavelfric@seznam.cz>, 2016.
+# Czech translations for pishutdown package.
+# Copyright (C) 2016 THE pishutdown'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pishutdown package.
+#  Martin Mareš, <mmrmartin[at]gmail[.]com>, 2025
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: lxpanel 0.3.99\n"
+"Project-Id-Version: pishutdown 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 10:35+0000\n"
-"PO-Revision-Date: 2016-11-01 00:05+0100\n"
-"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
-"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-03-11 18:06+0000\n"
+"PO-Revision-Date: 2025-12-26 20:40+0000\n"
+"Last-Translator:  <mmrmartin[at]gmail[.]com>\n"
+"Language-Team: Czech\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 1.5\n"
-"X-Pootle-Revision: 134\n"
-"X-Pootle-Path: /cs/lxpanel/po/cs.po\n"
-"X-POOTLE-MTIME: 1427405508.000000\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/pishutdown.c:131
-msgid "Exit to command line"
-msgstr ""
-
-#. End of file
-#. ----------------------------------------------------------------------------
-#: ../data/pishutdown.ui.h:1
+#: ../src/pishutdown.c:63
 msgid "Shutdown options"
-msgstr ""
+msgstr "Možnosti vypnutí"
 
-#: ../data/pishutdown.ui.h:2
+#: ../src/pishutdown.c:74
 msgid "Shutdown"
-msgstr ""
+msgstr "Vypnout"
 
-#: ../data/pishutdown.ui.h:3
+#: ../src/pishutdown.c:80
 msgid "Reboot"
-msgstr ""
+msgstr "Restartovat"
 
-#: ../data/pishutdown.ui.h:4
 msgid "Lock Screen"
-msgstr ""
+msgstr "Zamknout obrazovku"
 
-#: ../data/pishutdown.ui.h:5
-#, fuzzy
+#: ../src/pishutdown.c:88
 msgctxt "button"
 msgid "Logout"
 msgstr "Odhlásit se"
+
+#: ../src/pishutdown.c:90
+msgid "Exit to command line"
+msgstr "Přejít do příkazové řádky"
 
 #: ../data/pishutdown.desktop.in.h:1
 msgid "Logout"
@@ -56,4 +48,3 @@ msgstr "Odhlásit se"
 #: ../data/pishutdown.desktop.in.h:2
 msgid "Shutdown and logout options"
 msgstr ""
-
