@@ -1,3 +1,9 @@
+pishutdown (0.37) trixie; urgency=medium
+
+  * Add activation
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 01 Apr 2026 13:23:45 +0100
+
 pishutdown (0.36) trixie; urgency=medium
 
   * Update desktop file
