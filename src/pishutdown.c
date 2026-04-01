@@ -30,6 +30,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "activate.h"
+
 //#define USE_LOGIND
 #ifdef USE_LOGIND
 GDBusProxy *proxy;
@@ -97,6 +99,8 @@ int main (int argc, char *argv[])
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
 
+    init_dbus ("pishutdown");
+
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -139,9 +143,13 @@ int main (int argc, char *argv[])
     g_bus_watch_name (G_BUS_TYPE_SYSTEM, "org.freedesktop.login1", 0, cb_name_owned, cb_name_unowned, NULL, NULL);
 #endif
 
+    setup_activate (dlg);
+
     gtk_widget_show (dlg);
     gtk_main ();
     gtk_widget_destroy (dlg);
+
+    close_dbus ();
 
     return 0;
 }

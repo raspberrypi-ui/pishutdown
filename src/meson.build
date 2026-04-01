@@ -1,10 +1,9 @@
 sources = files (
-    'pishutdown.c'
+    'pishutdown.c',
+    'activate.c'
 )
 
-add_global_arguments('-Wno-unused-result', language : 'c')
-
 gtk = dependency ('gtk+-3.0')
-deps = [ gtk ]
+deps = [ deps, gtk ]
 
 executable ('pishutdown', sources, dependencies: deps, install: true)
