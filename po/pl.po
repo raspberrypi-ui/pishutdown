@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pishutdown 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-11 18:06+0000\n"
-"PO-Revision-Date: 2019-09-02 21:55+0200\n"
-"Last-Translator: Marcin Sielski <marcin.sielski@gmail.com>\n"
+"POT-Creation-Date: 2026-04-19 12:32+0200\n"
+"PO-Revision-Date: 2026-04-19 12:47+0200\n"
+"Last-Translator: Skotniczny <skotniczny@outlook.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.1\n"
 
-#: ../src/pishutdown.c:63
+#: src/pishutdown.c:134
+msgid "Exit to command line"
+msgstr "Wyjdź do wiersza poleceń"
+
+#: data/pishutdown.ui:9
 msgid "Shutdown options"
 msgstr "Opcje Zamykania"
 
-#: ../src/pishutdown.c:74
+#: data/pishutdown.ui:24
 msgid "Shutdown"
 msgstr "Zamknij"
 
-#: ../src/pishutdown.c:80
+#: data/pishutdown.ui:38
 msgid "Reboot"
 msgstr "Restartuj"
 
-#: ../src/pishutdown.c:88
+#: data/pishutdown.ui:52
+msgid "Lock Screen"
+msgstr "Zablokuj ekran"
+
+#: data/pishutdown.ui:66
 msgctxt "button"
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: ../data/pishutdown.desktop.in.h:1
+#: data/pishutdown.desktop.in:3
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: ../src/pishutdown.c:90
-msgid "Exit to command line"
-msgstr "Wyjdź do wiersza poleceń"
+#: data/pishutdown.desktop.in:4
+msgid "Shutdown and logout options"
+msgstr "Opcje Zamykania"
