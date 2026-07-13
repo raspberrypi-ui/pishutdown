@@ -57,8 +57,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
         }
         else
 #endif
-        if (!system ("pgrep wayfire > /dev/null")) system ("/usr/bin/pkill wayfire");
-        else if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/labwc -e");
+        if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/labwc -e");
         else system ("/usr/bin/pkill lxsession");
     }
 }
