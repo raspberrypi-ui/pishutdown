@@ -1,3 +1,9 @@
+pishutdown (0.39) trixie; urgency=medium
+
+  * Hide lock screen button if no physical keyboard found
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 15 Jul 2026 08:41:39 +0100
+
 pishutdown (0.38) trixie; urgency=medium
 
   * Add Polish translation

@@ -91,6 +91,12 @@ static void cb_name_unowned (GDBusConnection *connection, const gchar *name, gpo
 }
 #endif
 
+static gboolean hard_keys (void)
+{
+    if (!system ("lsusb -v 2>/dev/null | grep -E 'bInterfaceClass|bInterfaceProtocol' | paste - - | grep -q 'Human Interface Device.*Keyboard'")) return TRUE;
+    else return FALSE;
+}
+
 /* The dialog... */
 
 int main (int argc, char *argv[])
@@ -124,7 +130,7 @@ int main (int argc, char *argv[])
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_lock");
-    if (getenv ("WAYLAND_DISPLAY"))
+    if (getenv ("WAYLAND_DISPLAY") && hard_keys ())
     {
         g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
         if (system ("passwd -S $USER | grep -qw P")) gtk_widget_set_sensitive (btn, FALSE);
