@@ -37,6 +37,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 GDBusProxy *proxy;
 #endif
 
+static GMainLoop *loop;
+
 static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
@@ -44,7 +46,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
     if (!strcmp (data, "lock"))
     {
         system ("/usr/bin/swaylock -p");
-        gtk_main_quit ();
+        g_main_loop_quit (loop);
     }
     if (!strcmp (data, "exit"))
     {
@@ -62,20 +64,20 @@ static void button_handler (GtkWidget *widget, gpointer data)
     }
 }
 
-static gboolean delete_event (GtkWidget *widget, GdkEvent *event, gpointer data)
+static gboolean delete_event (GtkWindow *, gpointer)
 {
-    gtk_main_quit ();
-    return FALSE;
+    g_main_loop_quit (loop);
+    return GDK_EVENT_STOP;
 }
 
-static gboolean key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer data)
+static gboolean key_press_event (GtkEventControllerKey *, guint keyval, guint, GdkModifierType, gpointer )
 {
-    if (event->keyval == GDK_KEY_Escape)
+    if (keyval == GDK_KEY_Escape)
     {
-        gtk_main_quit ();
-        return TRUE;
+        g_main_loop_quit (loop);
+        return GDK_EVENT_STOP;
     }
-    return FALSE;
+    return GDK_EVENT_PROPAGATE;
 }
 
 #ifdef USE_LOGIND
@@ -103,6 +105,7 @@ int main (int argc, char *argv[])
 {
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
+    GtkEventController *controller;
 
     init_dbus ("pishutdown");
 
@@ -112,16 +115,20 @@ int main (int argc, char *argv[])
     textdomain (GETTEXT_PACKAGE);
 
     // GTK setup
-    gtk_init (&argc, &argv);
-    gtk_icon_theme_prepend_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR);
+    gtk_init ();
+    gtk_icon_theme_add_search_path (gtk_icon_theme_get_for_display (gdk_display_get_default ()), PACKAGE_DATA_DIR);
+
+    loop = g_main_loop_new (NULL, FALSE);
 
     // build the UI
     builder = gtk_builder_new_from_file (PACKAGE_UI_DIR "/pishutdown.ui");
 
     dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_window");
-    g_signal_connect (G_OBJECT (dlg), "delete_event", G_CALLBACK (delete_event), NULL);
-    g_signal_connect (G_OBJECT (dlg), "key-press-event", G_CALLBACK (key_press_event), NULL);
-    gtk_widget_add_events (dlg, GDK_KEY_PRESS_MASK);
+    g_signal_connect (G_OBJECT (dlg), "close-request", G_CALLBACK (delete_event), NULL);
+
+    controller = gtk_event_controller_key_new ();
+    g_signal_connect (controller, "key-pressed", G_CALLBACK (key_press_event), NULL);
+    gtk_widget_add_controller (dlg, controller);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_shutdown");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "shutdown");
@@ -135,7 +142,7 @@ int main (int argc, char *argv[])
         g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
         if (system ("passwd -S $USER | grep -qw P")) gtk_widget_set_sensitive (btn, FALSE);
     }
-    else gtk_widget_hide (btn);
+    else gtk_widget_set_visible (btn, FALSE);
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
@@ -150,9 +157,10 @@ int main (int argc, char *argv[])
 
     setup_activate (dlg);
 
-    gtk_widget_show (dlg);
-    gtk_main ();
-    gtk_widget_destroy (dlg);
+    gtk_window_present (GTK_WINDOW (dlg));
+    g_main_loop_run (loop);
+    gtk_window_destroy (GTK_WINDOW (dlg));
+    g_main_loop_unref (loop);
 
     close_dbus ();
 

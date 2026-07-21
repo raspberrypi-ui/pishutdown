@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ============================================================================*/
 
 #include <gtk/gtk.h>
-#include <gdk/gdkwayland.h>
+#include <gdk/wayland/gdkwayland.h>
 #include "xdg-activation-v1-client-protocol.h"
 
 #include "activate.h"
@@ -146,7 +146,7 @@ static void activate_app (void)
 static void token_done (void *data, struct xdg_activation_token_v1 *token, const char *token_string)
 {
     // activation token valid and ready to use
-    struct wl_surface *surface = gdk_wayland_window_get_wl_surface (gtk_widget_get_window (wd_to_act));
+    struct wl_surface *surface = gdk_wayland_surface_get_wl_surface (gtk_native_get_surface (GTK_NATIVE (wd_to_act)));
     xdg_activation_v1_activate (activation, token_string, surface);
     xdg_activation_token_v1_destroy (token);
 }
