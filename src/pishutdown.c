@@ -115,6 +115,7 @@ int main (int argc, char *argv[])
     textdomain (GETTEXT_PACKAGE);
 
     // GTK setup
+    g_set_prgname ("pishutdown");
     gtk_init ();
     gtk_icon_theme_add_search_path (gtk_icon_theme_get_for_display (gdk_display_get_default ()), PACKAGE_DATA_DIR);
 
