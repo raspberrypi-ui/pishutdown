@@ -1,7 +1,7 @@
-project ('pishutdown','c')
+project ('pishutdown4','c')
 
 share_dir = join_paths(get_option('prefix'), 'share')
-resource_dir = join_paths(share_dir, 'pishutdown')
+resource_dir = join_paths(share_dir, meson.project_name())
 ui_dir = join_paths(resource_dir, 'ui')
 desktop_dir = join_paths(share_dir, 'applications')
 

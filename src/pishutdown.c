@@ -70,7 +70,7 @@ static gboolean delete_event (GtkWindow *, gpointer)
     return GDK_EVENT_STOP;
 }
 
-static gboolean key_press_event (GtkEventControllerKey *, guint keyval, guint, GdkModifierType, gpointer )
+static gboolean key_press_event (GtkEventControllerKey *, guint keyval, guint, GdkModifierType, gpointer)
 {
     if (keyval == GDK_KEY_Escape)
     {
@@ -107,7 +107,7 @@ int main (int argc, char *argv[])
     GtkBuilder *builder;
     GtkEventController *controller;
 
-    init_dbus ("pishutdown");
+    init_dbus (GETTEXT_PACKAGE);
 
     setlocale (LC_ALL, "");
     bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
