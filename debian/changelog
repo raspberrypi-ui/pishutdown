@@ -1,3 +1,9 @@
+pishutdown (0.40) trixie; urgency=medium
+
+  * Add Georgian translation
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 02 Sep 2026 07:33:08 +0100
+
 pishutdown (0.39) trixie; urgency=medium
 
   * Hide lock screen button if no physical keyboard found
