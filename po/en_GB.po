@@ -39,7 +39,7 @@ msgstr "_Logout"
 
 #: ../data/pishutdown.desktop.in.h:1
 msgid "Logout"
-msgstr "Shutdown..."
+msgstr "Shutdown"
 
 #: ../src/pishutdown.c:90
 msgid "Exit to command line"

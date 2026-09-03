@@ -1,3 +1,9 @@
+pishutdown (0.41) trixie; urgency=medium
+
+  * Change label
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 03 Sep 2026 15:00:59 +0100
+
 pishutdown (0.40) trixie; urgency=medium
 
   * Add Georgian translation
