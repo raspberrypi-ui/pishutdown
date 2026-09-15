@@ -93,8 +93,13 @@ static void cb_name_unowned (GDBusConnection *connection, const gchar *name, gpo
 
 static gboolean hard_keys (void)
 {
+    // USB keyboards
     if (!system ("lsusb -v 2>/dev/null | grep -E 'bInterfaceClass|bInterfaceProtocol' | paste - - | grep -q 'Human Interface Device.*Keyboard'")) return TRUE;
-    else return FALSE;
+
+    // Bluetooth keyboards
+    if (!system ("bluetoothctl devices Connected | cut -d ' ' -f 2 | xargs -I{} bluetoothctl info {} | grep -q 'Icon: input-keyboard'")) return TRUE;
+
+    return FALSE;
 }
 
 /* The dialog... */
