@@ -1,3 +1,9 @@
+pishutdown (0.42) trixie; urgency=medium
+
+  * Do not hide lock screen button if a Bluetooth keyboard is connected
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 15 Sep 2026 12:57:50 +0100
+
 pishutdown (0.41) trixie; urgency=medium
 
   * Change label
