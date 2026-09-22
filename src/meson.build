@@ -4,6 +4,7 @@ sources = files (
 )
 
 gtk = dependency ('gtk+-3.0')
-deps = [ deps, gtk ]
+xml = dependency ('libxml-2.0')
+deps = [ deps, gtk, xml ]
 
 executable ('pishutdown', sources, dependencies: deps, install: true)

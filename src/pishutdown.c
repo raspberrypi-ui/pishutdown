@@ -29,34 +29,221 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <locale.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libxml/xpathInternals.h>
 
 #include "activate.h"
 
-//#define USE_LOGIND
-#ifdef USE_LOGIND
-GDBusProxy *proxy;
-#endif
+/*----------------------------------------------------------------------------*/
+/* Typedefs and macros                                                        */
+/*----------------------------------------------------------------------------*/
+
+#define XC(str) ((xmlChar *) str)
+
+/*----------------------------------------------------------------------------*/
+/* Global data                                                                */
+/*----------------------------------------------------------------------------*/
+
+char *lockbind = NULL;
+
+/*----------------------------------------------------------------------------*/
+/* Prototypes                                                                 */
+/*----------------------------------------------------------------------------*/
+
+static void read_xml (const char *file);
+static char *expand_keystring (const char *in);
+static char *decamel (const char *in);
+static void button_handler (GtkWidget *widget, gpointer data);
+static gboolean delete_event (GtkWidget *widget, GdkEvent *event, gpointer data);
+static gboolean key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer data);
+
+/*----------------------------------------------------------------------------*/
+/* Function definitions                                                       */
+/*----------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------*/
+/* Read lock screen key binding                                               */
+/*----------------------------------------------------------------------------*/
+
+static void read_xml (const char *file)
+{
+    xmlDocPtr xDoc;
+    xmlXPathObjectPtr xpathObj, xpathObj2, xpathObj3;
+    xmlXPathContextPtr xpathCtx;
+    xmlNode *node;
+    xmlAttr *attr, *attr2;
+    char *key, *act, *name, *param;
+    int i, j;
+
+    // read in data from XML file
+    xmlInitParser ();
+    LIBXML_TEST_VERSION
+    xDoc = xmlReadFile (file, NULL, XML_PARSE_NOBLANKS);
+    if (xDoc == NULL)
+    {
+        xmlCleanupParser ();
+        return;
+    }
+
+    xpathCtx = xmlXPathNewContext (xDoc);
+    xmlXPathRegisterNs (xpathCtx, XC ("o"), XC ("http://openbox.org/3.4/rc"));
+
+    xpathObj = xmlXPathEvalExpression (XC ("/o:openbox_config/o:keyboard/o:keybind"), xpathCtx);
+    if (!xmlXPathNodeSetIsEmpty (xpathObj->nodesetval))
+    {
+        for (i = 0; i < xpathObj->nodesetval->nodeNr; i++)
+        {
+            key = NULL;
+            act = NULL;
+            name = NULL;
+            param = NULL;
+
+            node = xpathObj->nodesetval->nodeTab[i];
+            for (attr = node->properties; attr; attr = attr->next)
+            {
+                if (!attr->children || !attr->children->content) continue;
+                if (!xmlStrcmp (attr->name, XC ("key")))
+                    key = g_strdup ((char *) attr->children->content);
+            }
+            xpathObj2 = xmlXPathNodeEval (node, XC ("./o:action"), xpathCtx);
+            if (!xmlXPathNodeSetIsEmpty (xpathObj2->nodesetval))
+            {
+                for (attr2 = xpathObj2->nodesetval->nodeTab[0]->properties; attr2; attr2 = attr2->next)
+                {
+                    if (!attr2->children || !attr2->children->content) continue;
+                    if (!xmlStrcmp (attr2->name, XC ("name")))
+                        act = g_strdup ((char *) attr2->children->content);
+                    if (!xmlStrcmp (attr2->name, XC ("command")))
+                    {
+                        name = g_strdup ((char *) attr2->name);
+                        param = g_strdup ((char *) attr2->children->content);
+                    }
+                }
+
+                node = xpathObj2->nodesetval->nodeTab[0];
+                xpathObj3 = xmlXPathNodeEval (node, XC ("./o:*"), xpathCtx);
+                if (!xmlXPathNodeSetIsEmpty (xpathObj3->nodesetval))
+                {
+                    for (j = 0; j < xpathObj3->nodesetval->nodeNr; j++)
+                    {
+                        node = xpathObj3->nodesetval->nodeTab[j];
+                        if (act == NULL && !xmlStrcmp (node->name, XC ("name")))
+                            act = g_strdup ((char *) xmlNodeGetContent (node));
+                        if (name == NULL && !xmlStrcmp (node->name, XC ("command")))
+                        {
+                            name = g_strdup ((char *) node->name);
+                            param = g_strdup ((char *) xmlNodeGetContent (node));
+                        }
+                    }
+                }
+                xmlXPathFreeObject (xpathObj3);
+            }
+            xmlXPathFreeObject (xpathObj2);
+
+            if (!g_strcmp0 (act, "Execute") && !g_strcmp0 (name, "command") && !g_strcmp0 (param, "swaylock -p"))
+                lockbind = expand_keystring (key);
+
+            g_free (key);
+            g_free (act);
+            g_free (name);
+            g_free (param);
+        }
+    }
+    xmlXPathFreeObject (xpathObj);
+
+    // cleanup XML
+    xmlXPathFreeContext (xpathCtx);
+    xmlFreeDoc (xDoc);
+    xmlCleanupParser ();
+}
+
+static char *expand_keystring (const char *in)
+{
+    char buf[128], *optr = buf, *iptr = (char *) in;
+
+    while (*iptr)
+    {
+        if (*(iptr + 1) == '-')
+        {
+            switch (*iptr)
+            {
+                case 'S' :  sprintf (optr, "Shift-");
+                            optr += 6;
+                            iptr += 2;
+                            break;
+                case 'C' :  sprintf (optr, "Ctrl-");
+                            optr += 5;
+                            iptr += 2;
+                            break;
+                case 'A' :  sprintf (optr, "Alt-");
+                            optr += 4;
+                            iptr += 2;
+                            break;
+                case 'H' :  sprintf (optr, "Hyper-");
+                            optr += 6;
+                            iptr += 2;
+                            break;
+                case 'W' :  sprintf (optr, "Win-");
+                            optr += 4;
+                            iptr += 2;
+                            break;
+                case 'M' :  sprintf (optr, "Meta-");
+                            optr += 5;
+                            iptr += 2;
+                            break;
+                default :   *optr++ = *iptr++;
+                            break;
+            }
+        }
+        else *optr++ = *iptr++;
+    }
+    *optr = 0;
+
+    iptr = strstr (buf, "XF86");
+    if (iptr)
+    {
+        optr = decamel (iptr + 4);
+        strcpy (iptr, optr);
+        g_free (optr);
+    }
+
+    // xkb reports 'space', but the default config includes 'Space'...
+    iptr = strstr (buf, "Space");
+    if (iptr) *iptr = 's';
+
+    return g_strdup (buf);
+}
+
+static char *decamel (const char *in)
+{
+    char *out = NULL, *tmp;
+
+    while (*in)
+    {
+        tmp = out;
+        if (tmp == NULL)
+            out = g_strdup_printf ("%c", *in);
+        else if (*in >= 'A' && *in <= 'Z')
+            out = g_strdup_printf ("%s %c", tmp, *in);
+        else
+            out = g_strdup_printf ("%s%c", tmp, *in);
+        g_free (tmp);
+        in++;
+    }
+
+    return out;
+}
+
+/*----------------------------------------------------------------------------*/
+/* Handlers                                                                   */
+/*----------------------------------------------------------------------------*/
 
 static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
-    if (!strcmp (data, "lock"))
-    {
-        system ("/usr/bin/swaylock -p");
-        gtk_main_quit ();
-    }
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
-#ifdef USE_LOGIND
-        if (proxy && !system ("systemctl is-active lightdm | grep -qw active"))
-        {
-            GVariant *var = g_variant_new ("(ui)", getuid(), SIGKILL);
-            g_dbus_proxy_call_sync (proxy, "KillUser", var, G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL);
-        }
-        else
-#endif
         if (!system ("pgrep labwc > /dev/null")) system ("/usr/bin/labwc -e");
         else system ("/usr/bin/pkill lxsession");
     }
@@ -78,36 +265,15 @@ static gboolean key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer
     return FALSE;
 }
 
-#ifdef USE_LOGIND
-static void cb_name_owned (GDBusConnection *connection, const gchar *name, const gchar *owner, gpointer user_data)
-{
-    proxy = g_dbus_proxy_new_sync (connection, 0, NULL, name, "/org/freedesktop/login1", "org.freedesktop.login1.Manager", NULL, NULL);
-}
-
-static void cb_name_unowned (GDBusConnection *connection, const gchar *name, gpointer user_data)
-{
-    if (proxy) g_object_unref (proxy);
-    proxy = NULL;
-}
-#endif
-
-static gboolean hard_keys (void)
-{
-    // USB keyboards
-    if (!system ("lsusb -v 2>/dev/null | grep -E 'bInterfaceClass|bInterfaceProtocol' | paste - - | grep -q 'Human Interface Device.*Keyboard'")) return TRUE;
-
-    // Bluetooth keyboards
-    if (!system ("bluetoothctl devices Connected | cut -d ' ' -f 2 | xargs -I{} bluetoothctl info {} | grep -q 'Icon: input-keyboard'")) return TRUE;
-
-    return FALSE;
-}
-
-/* The dialog... */
+/*----------------------------------------------------------------------------*/
+/* Main function                                                              */
+/*----------------------------------------------------------------------------*/
 
 int main (int argc, char *argv[])
 {
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
+    char *str;
 
     init_dbus ("pishutdown");
 
@@ -134,24 +300,24 @@ int main (int argc, char *argv[])
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_reboot");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
 
-    btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_lock");
-    if (getenv ("WAYLAND_DISPLAY") && hard_keys ())
-    {
-        g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "lock");
-        if (system ("passwd -S $USER | grep -qw P")) gtk_widget_set_sensitive (btn, FALSE);
-    }
-    else gtk_widget_hide (btn);
-
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
     if (system ("systemctl is-active lightdm | grep -qw active"))
         gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
-#ifdef USE_LOGIND
-    // set up callbacks to find DBus interface to system-logind
-    proxy = NULL;
-    g_bus_watch_name (G_BUS_TYPE_SYSTEM, "org.freedesktop.login1", 0, cb_name_owned, cb_name_unowned, NULL, NULL);
-#endif
+    str = g_build_filename (g_get_user_config_dir (), "labwc/rc.xml", NULL);
+    read_xml (str);
+    g_free (str);
+    if (!lockbind) read_xml ("/etc/xdg/labwc/rc.xml");
+
+    btn = (GtkWidget *) gtk_builder_get_object (builder, "lbl_lock");
+    if (!lockbind) gtk_widget_hide (btn);
+    else
+    {
+        str = g_strdup_printf (_("Press '%s' to lock screen"), lockbind);
+        gtk_label_set_text (GTK_LABEL (btn), str);
+        g_free (str);
+    }
 
     setup_activate (dlg);
 
