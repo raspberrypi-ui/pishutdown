@@ -317,6 +317,7 @@ int main (int argc, char *argv[])
         str = g_strdup_printf (_("Press '%s' to lock screen"), lockbind);
         gtk_label_set_text (GTK_LABEL (btn), str);
         g_free (str);
+        g_free (lockbind);
     }
 
     setup_activate (dlg);
