@@ -102,7 +102,14 @@ static void read_xml (const char *file)
             {
                 if (!attr->children || !attr->children->content) continue;
                 if (!xmlStrcmp (attr->name, XC ("key")))
+                {
                     key = g_strdup ((char *) attr->children->content);
+                    if (lockbind && !g_strcmp0 (key, lockbind))
+                    {
+                        g_free (lockbind);
+                        lockbind = NULL;
+                    }
+                }
             }
             xpathObj2 = xmlXPathNodeEval (node, XC ("./o:action"), xpathCtx);
             if (!xmlXPathNodeSetIsEmpty (xpathObj2->nodesetval))
@@ -140,7 +147,7 @@ static void read_xml (const char *file)
             xmlXPathFreeObject (xpathObj2);
 
             if (!g_strcmp0 (act, "Execute") && !g_strcmp0 (name, "command") && !g_strcmp0 (param, "swaylock -p"))
-                lockbind = expand_keystring (key);
+                lockbind = g_strdup (key);
 
             g_free (key);
             g_free (act);
@@ -273,7 +280,7 @@ int main (int argc, char *argv[])
 {
     GtkWidget *dlg, *btn;
     GtkBuilder *builder;
-    char *str;
+    char *str, *lbe;
 
     init_dbus ("pishutdown");
 
@@ -305,18 +312,20 @@ int main (int argc, char *argv[])
     if (system ("systemctl is-active lightdm | grep -qw active"))
         gtk_button_set_label (GTK_BUTTON (btn), _("Exit to command line"));
 
+    read_xml ("/etc/xdg/labwc/rc.xml");
     str = g_build_filename (g_get_user_config_dir (), "labwc/rc.xml", NULL);
     read_xml (str);
     g_free (str);
-    if (!lockbind) read_xml ("/etc/xdg/labwc/rc.xml");
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "lbl_lock");
     if (!lockbind) gtk_widget_hide (btn);
     else
     {
-        str = g_strdup_printf (_("Press '%s' to lock screen"), lockbind);
+        lbe = expand_keystring (lockbind);
+        str = g_strdup_printf (_("Press '%s' to lock screen"), lbe);
         gtk_label_set_text (GTK_LABEL (btn), str);
         g_free (str);
+        g_free (lbe);
         g_free (lockbind);
     }
 
