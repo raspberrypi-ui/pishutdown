@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if $(LC_ALL=C grep -q $'\x01' /proc/device-tree/chosen/bootloader/suspend-to-ram 2> /dev/null) ; then 
+if $(LC_ALL=C grep -q $'\x01' /proc/device-tree/chosen/bootloader/suspend-to-ram 2> /dev/null) ; then
   if $(systemd-inhibit --list --no-pager --no-legend | grep -q "A bootloader EEPROM update is pending") ; then
     exit 1
   else

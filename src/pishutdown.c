@@ -248,7 +248,11 @@ static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
-    if (!strcmp (data, "suspend")) system ("systemctl suspend");
+    if (!strcmp (data, "suspend"))
+    {
+        system ("systemctl suspend");
+        gtk_main_quit ();
+    }
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
@@ -310,7 +314,7 @@ int main (int argc, char *argv[])
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_suspend");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "suspend");
-    switch (system ("/usr/bin/suspend_check"))
+    switch (WEXITSTATUS (system ("/usr/bin/suspend_check")))
     {
         case 0 :    gtk_widget_hide (btn);
                     break;
