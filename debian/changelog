@@ -1,3 +1,9 @@
+pishutdown (0.44) trixie; urgency=medium
+
+  * Add suspend button
+
+ -- Simon Long <simon@raspberrypi.com>  Thu, 24 Sep 2026 11:21:41 +0100
+
 pishutdown (0.43) trixie; urgency=medium
 
   * Don't try to detect keyboard; prompt for lock screen keybinding instead
