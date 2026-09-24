@@ -1,4 +1,5 @@
 install_data('pishutdown.ui', install_dir: ui_dir)
+install_data('suspend_check', install_dir: '/usr/bin')
 
 i18n.merge_file(input: 'pishutdown.desktop.in',
   output: 'pishutdown.desktop',

@@ -29,8 +29,8 @@ msgstr "_Shutdown"
 msgid "Reboot"
 msgstr "_Reboot"
 
-msgid "Lock Screen"
-msgstr "Loc_k Screen"
+msgid "Suspend"
+msgstr "Suspen_d"
 
 #: ../src/pishutdown.c:88
 msgctxt "button"

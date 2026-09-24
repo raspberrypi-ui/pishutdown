@@ -45,8 +45,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btn_logout">
-            <property name="label" translatable="yes" context="button">Logout</property>
+          <object class="GtkButton" id="btn_suspend">
+            <property name="label" translatable="yes">Suspend</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
@@ -59,6 +59,20 @@
           </packing>
         </child>
         <child>
+          <object class="GtkButton" id="btn_logout">
+            <property name="label" translatable="yes" context="button">Logout</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="use-underline">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkLabel" id="lbl_lock">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -67,7 +81,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>

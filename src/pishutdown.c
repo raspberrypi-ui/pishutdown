@@ -248,6 +248,7 @@ static void button_handler (GtkWidget *widget, gpointer data)
 {
     if (!strcmp (data, "shutdown")) system ("/usr/bin/pkill orca;/sbin/shutdown -h now");
     if (!strcmp (data, "reboot")) system ("/usr/bin/pkill orca;/sbin/reboot");
+    if (!strcmp (data, "suspend")) system ("systemctl suspend");
     if (!strcmp (data, "exit"))
     {
         system ("/usr/bin/pkill orca");
@@ -306,6 +307,20 @@ int main (int argc, char *argv[])
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_reboot");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "reboot");
+
+    btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_suspend");
+    g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "suspend");
+    switch (system ("/usr/bin/suspend_check"))
+    {
+        case 0 :    gtk_widget_hide (btn);
+                    break;
+
+        case 1 :    gtk_widget_set_sensitive (btn, FALSE);
+                    gtk_widget_set_tooltip_text (btn, _("Cannot suspend while an EEPROM update is pending"));
+                    break;
+
+        default :   break;
+    }
 
     btn = (GtkWidget *) gtk_builder_get_object (builder, "btn_logout");
     g_signal_connect (G_OBJECT (btn), "clicked", G_CALLBACK (button_handler), "exit");
